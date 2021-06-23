@@ -30,9 +30,8 @@
                 <ul class="navlinks">
                     <li><a href="/movies"><button>movies</button></a></li>
 
-                    <li><a href="users.html"><button>sessions</button></a></li>
+                    <li><a href="/sessions"><button>sessions</button></a></li>
                     <li><a href="/coming-soon"><button>coming soon</button></a></li>
-                    <li><a href="contact.html"><button>contact</button></a></li>
                     <li class="nav-item dropdown">
                         @guest
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -53,7 +52,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="https://www.youtube.com/">
+                                <a class="dropdown-item" href="/your-tickets">
                                     Your tickets
                                 </a>
                                 @if(auth()->user()->priv_level == 5)

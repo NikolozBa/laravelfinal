@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MovieModel;
 use App\Models\SessionModel;
+use App\Models\TicketModel;
 use Illuminate\Http\Request;
 
 class MovieController extends Controller
@@ -53,8 +54,7 @@ class MovieController extends Controller
 
     public function submitMovie(Request $request){
 
-        print_r($request->post());
-        $validatedData = $request->validate([
+        $request->validate([
             'title' => 'required|max:30',
             'description' => 'required|max:255',
             'poster' => 'required',
@@ -62,27 +62,36 @@ class MovieController extends Controller
             'availability' => 'required|in:0,1'
         ]);
 
-        if($request->post('action')=='add'){
+        $title = $request->post('title');
+        $description = $request->post('description');
+        $poster = $request->post('poster');
+        $categories = $request->post('categories');
+        $availability = $request->post('availability');
+        $action = $request->post('action');
+
+
+        if($action=='add'){
             MovieModel::create([
-                'title' => $request->post('title'),
-                'description' => $request->post('description'),
-                'poster' => $request->post('poster'),
-                'categories' => $request->post('categories'),
-                'availability' => $request->post('availability')
+                'title' => $title,
+                'description' => $description,
+                'poster' => $poster,
+                'categories' => $categories,
+                'availability' => $availability
             ]);
             return redirect("/movies");
         }
 
 
-        else if($request->post('action')=='edit'){
-            MovieModel::where('id', $request->post('id'))->first()->update([
-                'title' => $request->post('title'),
-                'description' => $request->post('description'),
-                'poster' => $request->post('poster'),
-                'categories' => $request->post('categories'),
-                'availability' => $request->post('availability')
+        else if($action=='edit'){
+            $id = $request->post('id');
+            MovieModel::where('id', $id)->first()->update([
+                'title' => $title,
+                'description' => $description,
+                'poster' => $poster,
+                'categories' => $categories,
+                'availability' => $availability
             ]);
-            return redirect("/movies/{$request->post('id')}");
+            return redirect("/movies/{$id}");
         }
 
         return redirect("/movies");
@@ -91,16 +100,18 @@ class MovieController extends Controller
 
 
 
-
-    //not yet implemented
-
-
     public function deleteMovie($id){
-        print_r("asdasddd");
+        $movie = MovieModel::where('id', $id)->first();
+        $sessions = SessionModel::where('movie_id', $id);
+
+        foreach($sessions->get() as $session){
+            TicketModel::where('session_id', $session->id)->delete();
+        }
+        $sessions->delete();
+        $movie->delete();
+
+        return redirect("/movies");
     }
-
-
-
 
 
 

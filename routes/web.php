@@ -34,17 +34,26 @@ Route::get('/add-movie', 'MovieController@addMovie');
 Route::get('/edit-movie/{id}','MovieController@editMovie');
 Route::post('/submit-movie', 'MovieController@submitMovie');
 Route::post('/delete-movie/{id}','MovieController@deleteMovie');
-Route::get('/delete-movie/{id}', function (){abort(404);});
 Route::get('/submit-movie', function (){abort(404);});
+Route::get('/delete-movie/{id}', function (){abort(404);});
 
 
+
+Route::get('/sessions', 'SessionController@getSessions');
 Route::get('/sessions/{id}', 'SessionController@getOneSession');
 Route::get('/add-session', 'SessionController@addSession');
 Route::get('/edit-session/{id}', 'SessionController@editSession');
 Route::post('/submit-session', 'SessionController@submitSession');
+Route::post('/delete-session/{id}', 'SessionController@deleteSession');
+Route::get('/submit-session', function (){abort(404);});
+Route::get('/delete-session/{id}', function (){abort(404);});
 
 
-Route::post('/test', 'MovieController@test');
 
+Route::post('/checkout', 'TicketController@getSelectedTickets');
+Route::post('/buy-tickets', 'TicketController@buyTickets');
+Route::get('/checkout', function (){abort(404);});
+Route::get('/buy-tickets', function (){abort(404);});
+Route::get('/your-tickets', 'TicketController@getYourTickets');
 
 

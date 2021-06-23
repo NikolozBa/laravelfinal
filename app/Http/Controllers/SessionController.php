@@ -9,17 +9,50 @@ use Illuminate\Http\Request;
 
 class SessionController extends Controller
 {
+    public function getSessions(){
+        $movies = MovieModel::where('availability', true)->orderBy('title')->get();
+
+        $compiled_data = [
+//            'movie'=>[
+//                's1'=>['time'=>'asd','id'=>'iii'],
+//                's2'=>['time'=>'asd','id'=>'iii'],
+//                's3'=>['time'=>'asd','id'=>'iii'],
+//            ],
+        ];
+
+        foreach($movies as $movie){
+            $compiled_data[$movie->title] = [];
+            $sessions = SessionModel::where('movie_id', $movie->id)->orderBy('date_time')->get();
+            foreach ($sessions as $session){
+                $time_and_id = [];
+                $time_and_id['time']=$session->date_time;
+                $time_and_id['id']=$session->id;
+                $compiled_data[$movie->title][]=$time_and_id;
+            }
+        }
+
+        //print_r($compiled_data);
+        return view('sessions', ['data'=>$compiled_data]);
+
+    }
+
     public function getOneSession($id){
-        return view('session-details', ['session'=>SessionModel::where('id', $id)->first()]);
+        $session = SessionModel::where('id', $id)->first();
+        $tickets = TicketModel::where('session_id', $id)->orderby('seat')->get();
+        if($session==null){
+            abort(404);
+        }
+        return view('session-details', ['session'=>$session, 'tickets'=>$tickets]);
     }
 
 
 
     public function addSession(Request $request){
-        if(auth()->user()==null || auth()->user()->priv_level < 5 || MovieModel::where('id', $request->get('movie_id'))->first()==null){
+        $movie_id = $request->get('movie_id');
+        if(auth()->user()==null || auth()->user()->priv_level < 5 || MovieModel::where('id', $movie_id)->first()==null){
             abort(404);
         }
-        return view('add-edit-session',['movie_id'=>$request->get('movie_id')]);
+        return view('add-edit-session',['movie_id'=>$movie_id]);
     }
 
 
@@ -29,55 +62,68 @@ class SessionController extends Controller
         if(auth()->user()==null || auth()->user()->priv_level < 5 || $session==null){
             abort(404);
         }
-        return view("add-edit-session", ['movie_id'=>$session->movie_id, 'session'=>$session]);
+        return view("add-edit-session", ['session'=>$session]);
     }
 
 
 
 
     public function submitSession(Request $request){
-        $validatedData = $request->validate([
+        $request->validate([
             'date_time' => 'required|date',
             'hall_size' => 'required|integer|in:32,54,98'
         ]);
 
-        if($request->post('action')=='add'){
-            $newSession = SessionModel::create([
-                'date_time' => $request->post('date_time'),
-                'hall_size' => $request->post('hall_size'),
-                'movie_id' =>$request->post('movie_id'),
-            ]);
+        $date_time = $request->post('date_time');
+        $hall_size = $request->post('hall_size');
+        $action = $request->post('action');
 
-            for($i=0; $i<$newSession->hall_size; $i++){
+        if($action=='add'){
+            $movie_id = $request->get('movie_id');
+            $newSession = SessionModel::create([
+                'date_time' => $date_time,
+                'hall_size' => $hall_size,
+                'movie_id' =>$movie_id,
+            ]);
+            for($i=0; $i<$hall_size; $i++){
                 TicketModel::create([
                     'session_id'=>$newSession->id,
-                    'sold'=>false
+                    'sold'=>false,
+                    'seat'=>$i+1
                 ]);
             }
-
-            return redirect("/movies/{$request->post('movie_id')}");
+            return redirect("/movies/$movie_id");
         }
 
-        else if($request->post('action')=='edit'){
+
+        else if($action=='edit'){
             $session = SessionModel::where('id', $request->post('id'))->first();
 
-            if($session->hall_size != $request->post('hall_size')){
+            if($session->hall_size != $hall_size){
                 TicketModel::where('session_id', $session->id)->delete();
-                for($i=0; $i<$request->post('hall_size'); $i++){
+                for($i=0; $i<$hall_size; $i++){
                     TicketModel::create([
-                        'session_id'=>$request->post('id'),
+                        'session_id'=>$session->id,
                         'sold'=>false
                     ]);
                 }
             }
 
             $session->update([
-                'date_time' => $request->post('date_time'),
-                'hall_size' => $request->post('hall_size'),
+                'date_time' => $date_time,
+                'hall_size' => $hall_size,
             ]);
 
-            return redirect("/movies/{$request->post('movie_id')}");
+            return redirect("/sessions/{$session->id}");
         }
 
+        return redirect("/movies");
+    }
+
+    public function deleteSession($id){
+        $session = SessionModel::where('id',$id)->first();
+        TicketModel::where('session_id', $id)->delete();
+        $session->delete();
+        return redirect("/movies/{$session->movie_id}");
     }
 }

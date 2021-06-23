@@ -78,13 +78,12 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" name="movie_id" value={{$movie_id}}>
-
                             @isset($session)
                                 <input type="hidden" name="action" value="edit" >
                                 <input type="hidden" name="id" value="{{$session->id}}">
                             @else
                                 <input type="hidden" name="action" value="add" >
+                                <input type="hidden" name="movie_id" value={{$movie_id}}>
                             @endisset
 
                             <div class="form-group row mb-0">

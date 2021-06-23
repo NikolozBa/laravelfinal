@@ -17,6 +17,8 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->integer('session_id');
             $table->boolean('sold');
+            $table->integer('owner')->default(null);
+            $table->integer('seat');
             $table->timestamps();
         });
     }
