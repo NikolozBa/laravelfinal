@@ -39,7 +39,11 @@ class SessionController extends Controller
     public function getOneSession($id){
         $session = SessionModel::where('id', $id)->first();
         $tickets = TicketModel::where('session_id', $id)->orderby('seat')->get();
+        $movie = MovieModel::where('id', $session->movie_id)->first();
         if($session==null){
+            abort(404);
+        }
+        if(!$movie->availability){
             abort(404);
         }
         return view('session-details', ['session'=>$session, 'tickets'=>$tickets]);

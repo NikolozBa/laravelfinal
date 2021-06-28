@@ -3,19 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="87ab466d-01c1-4900-8646-a4a3024bfe5a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/MovieController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/MovieController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/Http/Controllers/SessionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/SessionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Models/TicketModel.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Models/TicketModel.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/database/migrations/2021_06_22_124825_create_tickets_table.php" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/2021_06_22_124825_create_tickets_table.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/add-edit-session.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/add-edit-session.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/checkout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/checkout.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/app.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/movie-details.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/movie-details.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/session-details.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/session-details.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/sessions.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/sessions.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/your-tickets.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/your-tickets.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,6 +178,9 @@
       <workItem from="1624379801065" duration="18925000" />
       <workItem from="1624434215524" duration="618000" />
       <workItem from="1624438847170" duration="4224000" />
+      <workItem from="1624443134513" duration="103000" />
+      <workItem from="1624563260601" duration="1411000" />
+      <workItem from="1624910127405" duration="3719000" />
     </task>
     <servers />
   </component>
