@@ -31,7 +31,6 @@ class SessionController extends Controller
             }
         }
 
-        //print_r($compiled_data);
         return view('sessions', ['data'=>$compiled_data]);
 
     }

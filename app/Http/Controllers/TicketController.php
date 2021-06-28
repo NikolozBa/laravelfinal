@@ -45,7 +45,14 @@ class TicketController extends Controller
         }
 
         $your_tickets = TicketModel::where('owner', auth()->user()->id)->get();
-        $compiled_data = [];
+        $compiled_data = [
+//            [
+//                'movie'=>'randtitle',
+//                'time'=>'randtime',
+//                'seat'=>'seatnum',
+//                'id'=>'ticketid'
+//            ]
+        ];
 
         foreach ($your_tickets as $ticket){
             $session = SessionModel::where('id', $ticket->session_id)->first();
